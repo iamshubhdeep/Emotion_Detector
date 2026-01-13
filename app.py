@@ -12,11 +12,7 @@ from sklearn.naive_bayes import MultinomialNB
 
 nltk.download('stopwords')
 nltk.download('wordnet')
-
-# Load dataset
 df = pd.read_csv("emotion.csv")
-
-# Preprocessing
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
@@ -28,17 +24,11 @@ def preprocess_text(text):
     return " ".join(words)
 
 df['clean_text'] = df['text'].apply(preprocess_text)
-
-# Vectorization
 vectorizer = TfidfVectorizer(max_features=5000)
 X = vectorizer.fit_transform(df['clean_text'])
 y = df['emotion']
-
-# Model
 model = MultinomialNB()
 model.fit(X, y)
-
-# Streamlit UI
 st.title("AI-Powered Emotion Detection from Text")
 st.write("Enter a sentence and the model will predict the emotion.")
 
